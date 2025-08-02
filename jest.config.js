@@ -13,9 +13,11 @@ const customJestConfig = {
   // Setup files
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   
-  // Module paths
-  moduleNameMapping: {
+  // Module paths and mocks
+  moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/__mocks__/fileMock.js',
   },
   
   // Coverage configuration
