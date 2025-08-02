@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Mail, Calendar, MessageCircle } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { TrackedButton, ContactButton, TrackedForm } from '@/components/TrackingComponents';
 
 export default function CTA() {
   const containerRef = useRef(null);
@@ -72,10 +73,13 @@ export default function CTA() {
               
               {/* Quick contact options */}
               <div className="grid sm:grid-cols-3 gap-4 mb-12 stagger-children animate">
-                <motion.a
-                  href="mailto:contact@prodiges.agency"
-                  whileHover={{ y: -8, scale: 1.05, rotateY: 5 }}
+                <ContactButton
+                  type="email"
+                  value="contact@prodiges.agency"
                   className="group flex flex-col items-center p-6 bg-white/50 backdrop-blur-sm rounded-2xl border border-glass-border hover:border-primary/20 transition-all duration-300 hover-glow card-interactive"
+                  motionProps={{
+                    whileHover: { y: -8, scale: 1.05, rotateY: 5 }
+                  }}
                 >
                   <motion.div
                     whileHover={{ scale: 1.2, rotate: 5 }}
@@ -85,12 +89,15 @@ export default function CTA() {
                   </motion.div>
                   <span className="font-medium text-text-dark">Email</span>
                   <span className="text-sm text-text-light">contact@prodiges.agency</span>
-                </motion.a>
+                </ContactButton>
                 
-                <motion.a
-                  href="#"
-                  whileHover={{ y: -8, scale: 1.05, rotateY: -5 }}
+                <ContactButton
+                  type="calendar"
+                  value="https://calendly.com/prodiges-agency/consultation"
                   className="group flex flex-col items-center p-6 bg-white/50 backdrop-blur-sm rounded-2xl border border-glass-border hover:border-primary/20 transition-all duration-300 hover-glow card-interactive"
+                  motionProps={{
+                    whileHover: { y: -8, scale: 1.05, rotateY: -5 }
+                  }}
                 >
                   <motion.div
                     whileHover={{ scale: 1.2, rotate: -5 }}
@@ -100,12 +107,15 @@ export default function CTA() {
                   </motion.div>
                   <span className="font-medium text-text-dark">Rendez-vous</span>
                   <span className="text-sm text-text-light">30 min gratuits</span>
-                </motion.a>
+                </ContactButton>
                 
-                <motion.a
-                  href="#"
-                  whileHover={{ y: -8, scale: 1.05, rotateY: 5 }}
+                <ContactButton
+                  type="phone"
+                  value="+33123456789"
                   className="group flex flex-col items-center p-6 bg-white/50 backdrop-blur-sm rounded-2xl border border-glass-border hover:border-primary/20 transition-all duration-300 hover-glow card-interactive"
+                  motionProps={{
+                    whileHover: { y: -8, scale: 1.05, rotateY: 5 }
+                  }}
                 >
                   <motion.div
                     whileHover={{ scale: 1.2, rotate: 5 }}
@@ -115,7 +125,7 @@ export default function CTA() {
                   </motion.div>
                   <span className="font-medium text-text-dark">WhatsApp</span>
                   <span className="text-sm text-text-light">Réponse rapide</span>
-                </motion.a>
+                </ContactButton>
               </div>
               
               {/* Newsletter signup */}
@@ -127,24 +137,39 @@ export default function CTA() {
                   "10 stratégies pour tripler votre CA digital en 2025"
                 </p>
                 
-                <form className="flex flex-col sm:flex-row gap-4">
+                <TrackedForm 
+                  formName="newsletter_guide"
+                  className="flex flex-col sm:flex-row gap-4"
+                  onSubmitSuccess={() => {
+                    setEmail('');
+                    // Could show success message here
+                  }}
+                >
                   <input
                     type="email"
+                    name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Votre email professionnel"
                     className="flex-1 px-6 py-4 bg-white/80 backdrop-blur-sm rounded-xl border border-glass-border focus:border-primary focus:outline-none transition-colors"
+                    required
                   />
-                  <motion.button
+                  <TrackedButton
+                    trackingName="newsletter_submit"
+                    trackingValue={5}
+                    trackingCategory="lead_generation"
                     type="submit"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-8 py-4 bg-button-gradient text-white font-medium rounded-xl hover:shadow-lg transition-all duration-300 flex items-center gap-2 btn-shimmer hover-magnetic relative overflow-hidden"
+                    variant="primary"
+                    motionProps={{
+                      whileHover: { scale: 1.05, y: -2 },
+                      whileTap: { scale: 0.95 }
+                    }}
+                    className="px-8 py-4 btn-shimmer hover-magnetic relative overflow-hidden"
                   >
                     <span className="relative z-10">Recevoir le guide</span>
                     <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
-                  </motion.button>
-                </form>
+                  </TrackedButton>
+                </TrackedForm>
               </div>
               
               {/* Decorative elements */}

@@ -26,25 +26,53 @@ const nextConfig = {
   
   // Headers for performance and security
   async headers() {
+    const { SECURITY_HEADERS, generateCSPHeader } = require('./lib/security');
+    const isProduction = process.env.NODE_ENV === 'production';
+    
     return [
       {
         source: '/:path*',
         headers: [
+          // Performance headers
           {
             key: 'X-DNS-Prefetch-Control',
             value: 'on'
+          },
+          // Security headers
+          ...Object.entries(SECURITY_HEADERS).map(([key, value]) => ({
+            key,
+            value
+          })),
+          // Content Security Policy
+          {
+            key: 'Content-Security-Policy',
+            value: generateCSPHeader(isProduction ? 'production' : 'development')
+          }
+        ]
+      },
+      {
+        source: '/api/:path*',
+        headers: [
+          // API-specific security headers
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
           },
           {
             key: 'X-Frame-Options',
             value: 'DENY'
           },
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
+            key: 'X-XSS-Protection',
+            value: '1; mode=block'
           },
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
+            value: 'no-referrer'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'no-store, no-cache, must-revalidate, proxy-revalidate'
           }
         ]
       },
@@ -54,6 +82,53 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable'
+          },
+          {
+            key: 'Cross-Origin-Resource-Policy',
+            value: 'cross-origin'
+          }
+        ]
+      },
+      {
+        source: '/icons/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          },
+          {
+            key: 'Cross-Origin-Resource-Policy',
+            value: 'cross-origin'
+          }
+        ]
+      },
+      {
+        source: '/manifest.json',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/manifest+json'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400'
+          }
+        ]
+      },
+      {
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/javascript'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate'
+          },
+          {
+            key: 'Service-Worker-Allowed',
+            value: '/'
           }
         ]
       }

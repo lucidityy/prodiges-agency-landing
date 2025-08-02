@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
+import AnalyticsProvider from '@/components/AnalyticsProvider'
+import PWAInstaller, { PWAFeatures } from '@/components/PWAInstaller'
+import SecurityProvider from '@/components/SecurityProvider'
 
 export const metadata: Metadata = {
   title: {
@@ -28,7 +31,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/og-image.jpg',
-        width: 1200,
+        width: 1200,fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 border-solid shadow-lg p-4 md:p-6
         height: 630,
         alt: 'Prodiges Agency - Incubateur nouvelle génération',
       }
@@ -79,9 +82,32 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
+        
+        {/* PWA Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        
+        {/* PWA Icons */}
+        <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512x512.png" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        
+        {/* iOS PWA Support */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Prodiges" />
+        
+        {/* Windows PWA Support */}
+        <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
+        <meta name="msapplication-TileColor" content="#5B4FE9" />
       </head>
       <body className="antialiased" suppressHydrationWarning>
-        {children}
+        <SecurityProvider>
+          <AnalyticsProvider enableAutoTracking consentRequired>
+            {children}
+            <PWAInstaller />
+            <PWAFeatures />
+          </AnalyticsProvider>
+        </SecurityProvider>
       </body>
     </html>
   )

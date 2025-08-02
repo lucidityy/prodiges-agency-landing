@@ -35,11 +35,18 @@ export default class ErrorBoundary extends Component<Props, State> {
       errorInfo
     });
 
+    // Report to error monitoring service
+    if (typeof window !== 'undefined' && (window as any).__ERROR_MONITOR__) {
+      (window as any).__ERROR_MONITOR__.reportReactError(
+        error, 
+        errorInfo, 
+        this.constructor.name
+      );
+    }
+
     // Log error to monitoring service in production
     if (process.env.NODE_ENV === 'production') {
       console.error('Error Boundary caught an error:', error, errorInfo);
-      // Here you would integrate with your error monitoring service
-      // e.g., Sentry, LogRocket, etc.
     }
   }
 
