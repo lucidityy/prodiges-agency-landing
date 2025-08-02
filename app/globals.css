@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@700;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-bg-light text-text-dark font-body antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+  
+  /* Better focus states */
+  a:focus,
+  button:focus {
+    @apply outline-none ring-2 ring-primary/50 ring-offset-2;
+  }
+}
+
+@layer components {
+  .container-max {
+    @apply max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .btn-primary {
+    @apply bg-button-gradient text-white px-6 lg:px-8 py-3.5 lg:py-4 rounded-2xl font-medium transition-all duration-300 hover:shadow-lg hover:scale-[1.02] text-sm sm:text-base backdrop-blur-sm;
+  }
+  
+  .btn-secondary {
+    @apply bg-glass-white border border-glass-border text-text-dark px-6 lg:px-8 py-3.5 lg:py-4 rounded-2xl font-medium transition-all duration-300 hover:bg-white/90 hover:shadow-glass text-sm sm:text-base backdrop-blur-md;
+  }
+  
+  .card {
+    @apply bg-glass-white backdrop-blur-xl rounded-3xl shadow-glass hover:shadow-glass-hover transition-all duration-300 border border-glass-border;
+  }
+  
+  .glass-card {
+    @apply bg-glass-white backdrop-blur-xl rounded-3xl shadow-glass border border-glass-border;
+  }
+  
+  /* Section spacing utilities */
+  .section-padding {
+    @apply py-20 sm:py-24 lg:py-32;
+  }
+  
+  .section-spacing {
+    @apply mt-20 sm:mt-24 lg:mt-32;
+  }
+  
+  /* Container utilities */
+  .container-section {
+    @apply container mx-auto px-6 sm:px-8 lg:px-12;
+  }
+  
+  /* Grid gaps */
+  .grid-gap-consistent {
+    @apply gap-6 lg:gap-8;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Performance optimizations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Selection colors */
+::selection {
+  @apply bg-primary/20 text-primary;
+}
+
+::-moz-selection {
+  @apply bg-primary/20 text-primary;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gradient-to-b from-primary/40 to-secondary/40 rounded-full;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gradient-to-b from-primary/60 to-secondary/60;
+}
+
+/* Immersive animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.7) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Enhanced glass effect */
+.glass-enhanced {
+  @apply bg-white/70 backdrop-blur-2xl border border-white/20;
+  box-shadow: 
+    0 8px 32px 0 rgba(31, 38, 135, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Text gradients */
+.text-gradient {
+  @apply bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent;
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Hover lift effect */
+.hover-lift {
+  @apply transition-all duration-300;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.15);
+}
