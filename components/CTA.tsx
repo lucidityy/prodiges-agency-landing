@@ -71,33 +71,48 @@ export default function CTA() {
               </p>
               
               {/* Quick contact options */}
-              <div className="grid sm:grid-cols-3 gap-4 mb-12">
+              <div className="grid sm:grid-cols-3 gap-4 mb-12 stagger-children animate">
                 <motion.a
                   href="mailto:contact@prodiges.agency"
-                  whileHover={{ y: -5 }}
-                  className="group flex flex-col items-center p-6 bg-white/50 backdrop-blur-sm rounded-2xl border border-glass-border hover:border-primary/20 transition-all duration-300"
+                  whileHover={{ y: -8, scale: 1.05, rotateY: 5 }}
+                  className="group flex flex-col items-center p-6 bg-white/50 backdrop-blur-sm rounded-2xl border border-glass-border hover:border-primary/20 transition-all duration-300 hover-glow card-interactive"
                 >
-                  <Mail className="w-8 h-8 text-primary mb-3" />
+                  <motion.div
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                    className="mb-3"
+                  >
+                    <Mail className="w-8 h-8 text-primary animate-bounce-subtle" />
+                  </motion.div>
                   <span className="font-medium text-text-dark">Email</span>
                   <span className="text-sm text-text-light">contact@prodiges.agency</span>
                 </motion.a>
                 
                 <motion.a
                   href="#"
-                  whileHover={{ y: -5 }}
-                  className="group flex flex-col items-center p-6 bg-white/50 backdrop-blur-sm rounded-2xl border border-glass-border hover:border-primary/20 transition-all duration-300"
+                  whileHover={{ y: -8, scale: 1.05, rotateY: -5 }}
+                  className="group flex flex-col items-center p-6 bg-white/50 backdrop-blur-sm rounded-2xl border border-glass-border hover:border-primary/20 transition-all duration-300 hover-glow card-interactive"
                 >
-                  <Calendar className="w-8 h-8 text-primary mb-3" />
+                  <motion.div
+                    whileHover={{ scale: 1.2, rotate: -5 }}
+                    className="mb-3"
+                  >
+                    <Calendar className="w-8 h-8 text-primary animate-tilt" />
+                  </motion.div>
                   <span className="font-medium text-text-dark">Rendez-vous</span>
                   <span className="text-sm text-text-light">30 min gratuits</span>
                 </motion.a>
                 
                 <motion.a
                   href="#"
-                  whileHover={{ y: -5 }}
-                  className="group flex flex-col items-center p-6 bg-white/50 backdrop-blur-sm rounded-2xl border border-glass-border hover:border-primary/20 transition-all duration-300"
+                  whileHover={{ y: -8, scale: 1.05, rotateY: 5 }}
+                  className="group flex flex-col items-center p-6 bg-white/50 backdrop-blur-sm rounded-2xl border border-glass-border hover:border-primary/20 transition-all duration-300 hover-glow card-interactive"
                 >
-                  <MessageCircle className="w-8 h-8 text-primary mb-3" />
+                  <motion.div
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                    className="mb-3"
+                  >
+                    <MessageCircle className="w-8 h-8 text-primary animate-float" />
+                  </motion.div>
                   <span className="font-medium text-text-dark">WhatsApp</span>
                   <span className="text-sm text-text-light">Réponse rapide</span>
                 </motion.a>
@@ -122,12 +137,12 @@ export default function CTA() {
                   />
                   <motion.button
                     type="submit"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-8 py-4 bg-button-gradient text-white font-medium rounded-xl hover:shadow-lg transition-all duration-300 flex items-center gap-2"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-4 bg-button-gradient text-white font-medium rounded-xl hover:shadow-lg transition-all duration-300 flex items-center gap-2 btn-shimmer hover-magnetic relative overflow-hidden"
                   >
-                    <span>Recevoir le guide</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <span className="relative z-10">Recevoir le guide</span>
+                    <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
                   </motion.button>
                 </form>
               </div>

@@ -111,29 +111,50 @@ export default function System() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => setSelectedService(service)}
-                className={`w-full text-left p-6 rounded-xl transition-all duration-200 ${
+                className={`w-full text-left p-6 rounded-xl transition-all duration-300 hover-glow relative overflow-hidden ${
                   selectedService.id === service.id
                     ? 'bg-gray-50 border-2 border-primary shadow-sm'
                     : 'bg-white border-2 border-gray-100 hover:border-gray-200'
                 }`}
+                whileHover={{ 
+                  scale: 1.02, 
+                  x: 5
+                }}
+                whileTap={{ scale: 0.98 }}
               >
                 <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-lg ${
-                    selectedService.id === service.id 
-                      ? 'bg-gradient-to-br from-primary to-secondary text-white' 
-                      : 'bg-gray-100 text-gray-600'
-                  }`}>
+                  <motion.div 
+                    className={`p-3 rounded-lg transition-all duration-300 ${
+                      selectedService.id === service.id 
+                        ? 'bg-gradient-to-br from-primary to-secondary text-white animate-glow' 
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    animate={selectedService.id === service.id ? { 
+                      scale: [1, 1.05, 1],
+                      rotate: [0, 5, 0]
+                    } : {}}
+                    transition={{ duration: 0.5 }}
+                  >
                     <service.icon className="w-5 h-5" />
-                  </div>
+                  </motion.div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-gray-900">{service.title}</h3>
                     <p className="text-sm text-gray-600 mt-1">{service.description}</p>
                   </div>
-                  <ArrowRight className={`w-5 h-5 transition-all ${
-                    selectedService.id === service.id 
-                      ? 'text-primary translate-x-1' 
-                      : 'text-gray-400'
-                  }`} />
+                  <motion.div
+                    animate={selectedService.id === service.id ? { 
+                      x: 4,
+                      scale: 1.1
+                    } : { x: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ArrowRight className={`w-5 h-5 transition-all ${
+                      selectedService.id === service.id 
+                        ? 'text-primary' 
+                        : 'text-gray-400'
+                    }`} />
+                  </motion.div>
                 </div>
               </motion.button>
             ))}
@@ -142,15 +163,25 @@ export default function System() {
           {/* Service details */}
           <motion.div
             key={selectedService.id}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-            className="bg-gray-50 rounded-2xl p-8 lg:p-10"
+            initial={{ opacity: 0, x: 20, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 0.4, type: "spring" }}
+            className="bg-gray-50 rounded-2xl p-8 lg:p-10 hover-glow particles-container animate-morphing-border"
+            whileHover={{ 
+              scale: 1.02,
+              y: -5
+            }}
           >
             <div className="mb-6">
-              <div className="inline-flex p-4 rounded-xl bg-gradient-to-br from-primary to-secondary text-white mb-6">
+              <motion.div 
+                className="inline-flex p-4 rounded-xl bg-gradient-to-br from-primary to-secondary text-white mb-6 animate-float hover-glow"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ duration: 0.5, type: "spring" }}
+              >
                 <selectedService.icon className="w-8 h-8" />
-              </div>
+              </motion.div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">
                 {selectedService.title}
               </h3>
@@ -174,13 +205,20 @@ export default function System() {
               ))}
             </div>
 
-            <a
+            <motion.a
               href="#contact"
-              className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
+              className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all hover-magnetic"
+              whileHover={{ x: 5, scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              En savoir plus
-              <ArrowRight className="w-4 h-4" />
-            </a>
+              <span>En savoir plus</span>
+              <motion.div
+                whileHover={{ x: 3 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ArrowRight className="w-4 h-4" />
+              </motion.div>
+            </motion.a>
           </motion.div>
         </div>
 
@@ -197,13 +235,15 @@ export default function System() {
           <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
             Discutons de votre projet et découvrez comment nous pouvons vous aider à atteindre vos objectifs.
           </p>
-          <a
+          <motion.a
             href="#contact"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-xl hover:shadow-lg transition-all duration-200"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-xl hover:shadow-lg transition-all duration-200 btn-shimmer hover-magnetic relative overflow-hidden"
+            whileHover={{ scale: 1.05, y: -3 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Obtenir un devis gratuit
-            <ArrowRight className="w-4 h-4" />
-          </a>
+            <span className="relative z-10">Obtenir un devis gratuit</span>
+            <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
+          </motion.a>
         </motion.div>
       </div>
     </section>

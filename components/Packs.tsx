@@ -75,15 +75,25 @@ export default function Packs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="card p-8 relative overflow-hidden group"
+              className="card p-8 relative overflow-hidden group hover-glow card-interactive animate-fade-in-scale"
+              whileHover={{ 
+                scale: 1.02,
+                rotateY: 5,
+                z: 50
+              }}
+              style={{ transformStyle: 'preserve-3d' }}
             >
               <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${phase.color} opacity-10 rounded-full blur-2xl group-hover:opacity-20 transition-opacity`}></div>
               
               <div className="flex items-center justify-between mb-4">
                 <span className="text-sm font-semibold text-primary uppercase tracking-wider">{phase.phase}</span>
-                <div className={`inline-flex p-3 rounded-2xl bg-gradient-to-br ${phase.color}`}>
+                <motion.div 
+                  className={`inline-flex p-3 rounded-2xl bg-gradient-to-br ${phase.color} animate-float hover-glow`}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <phase.icon className="w-6 h-6 text-white" />
-                </div>
+                </motion.div>
               </div>
               
               <h3 className="text-2xl font-bold text-text-dark mb-3">{phase.name}</h3>
@@ -112,10 +122,14 @@ export default function Packs() {
                     {phase.outcome}
                   </motion.span>
                 </div>
-                <button className="w-full btn-primary mt-4 group">
-                  Unlock This Phase
-                  <TrendingUp className="inline-block w-4 h-4 ml-2 group-hover:translate-y-[-2px] transition-transform" />
-                </button>
+                <motion.button 
+                  className="w-full btn-primary mt-4 group btn-shimmer hover-magnetic relative overflow-hidden"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <span className="relative z-10">Unlock This Phase</span>
+                  <TrendingUp className="inline-block w-4 h-4 ml-2 group-hover:translate-y-[-2px] group-hover:rotate-12 transition-all duration-300 relative z-10" />
+                </motion.button>
               </div>
             </motion.div>
           ))}

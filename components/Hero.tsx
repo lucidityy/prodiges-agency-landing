@@ -1,11 +1,23 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const heroRef = useRef(null);
+  
+  // Parallax scroll effects
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const yParallaxSlow = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const yParallaxFast = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -20,7 +32,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="min-h-screen relative overflow-hidden flex items-center">
+    <section ref={heroRef} className="min-h-screen relative overflow-hidden flex items-center">
       {/* Dynamic animated background */}
       <div className="absolute inset-0">
         {/* Main gradient background */}
@@ -34,9 +46,14 @@ export default function Hero() {
           }}
         />
         
-        {/* Floating orbs */}
+        {/* Floating orbs with parallax */}
         <motion.div
           className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl"
+          style={{
+            y: yParallaxSlow,
+            scale: scale,
+            opacity: opacity
+          }}
           animate={{
             x: [0, 100, 0],
             y: [0, -50, 0],
@@ -47,6 +64,11 @@ export default function Hero() {
         
         <motion.div
           className="absolute top-3/4 right-1/4 w-80 h-80 bg-gradient-to-r from-pink-500/15 to-orange-500/15 rounded-full blur-3xl"
+          style={{
+            y: yParallaxFast,
+            scale: scale,
+            opacity: opacity
+          }}
           animate={{
             x: [0, -80, 0],
             y: [0, 60, 0],

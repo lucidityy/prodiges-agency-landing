@@ -5,6 +5,26 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
+  corePlugins: {
+    // Disable unused core plugins for smaller bundle
+    preflight: true,
+    container: true, // Keep container for existing usage
+    accessibility: false, // We handle manually
+    appearance: false,
+    caret: false,
+    pointerEvents: false,
+    resize: false,
+    scrollSnapType: false,
+    scrollSnapAlign: false,
+    touchAction: false,
+    userSelect: false,
+    fill: false,
+    stroke: false,
+    strokeWidth: false,
+  },
   theme: {
     extend: {
       colors: {

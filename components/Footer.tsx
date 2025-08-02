@@ -72,24 +72,30 @@ export default function Footer() {
           <div>
             <h4 className="text-base sm:text-lg font-semibold text-text-dark mb-3 sm:mb-4">Contact</h4>
             <div className="flex gap-3 sm:gap-4 mb-3 sm:mb-4">
-              <a
+              <motion.a
                 href="#"
-                className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-accent hover:text-white transition-all"
+                className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center social-icon linkedin hover-magnetic"
+                whileHover={{ scale: 1.2, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <Linkedin className="w-5 h-5" />
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href="#"
-                className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-accent hover:text-white transition-all"
+                className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center social-icon twitter hover-magnetic"
+                whileHover={{ scale: 1.2, rotate: -5 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <Twitter className="w-5 h-5" />
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href="#"
-                className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-accent hover:text-white transition-all"
+                className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center social-icon message hover-magnetic"
+                whileHover={{ scale: 1.2, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <MessageCircle className="w-5 h-5" />
-              </a>
+              </motion.a>
             </div>
             <p className="text-sm sm:text-base text-text-light">
               contact@prodiges.agency

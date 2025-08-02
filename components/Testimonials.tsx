@@ -55,12 +55,21 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="card p-6 sm:p-8 h-full flex flex-col"
+              className="card p-6 sm:p-8 h-full flex flex-col hover-glow card-interactive animate-morphing-border"
+              whileHover={{ 
+                scale: 1.03,
+                rotateY: 3,
+                z: 50
+              }}
+              style={{ transformStyle: 'preserve-3d' }}
             >
               <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-                <div className="w-12 sm:w-14 lg:w-16 h-12 sm:h-14 lg:h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base">
+                <motion.div 
+                  className="w-12 sm:w-14 lg:w-16 h-12 sm:h-14 lg:h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base animate-float hover-glow"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                >
                   {testimonial.avatar}
-                </div>
+                </motion.div>
                 <div>
                   <h4 className="font-semibold text-text-dark text-sm sm:text-base">{testimonial.name}</h4>
                   <p className="text-xs sm:text-sm text-text-light">{testimonial.role}</p>
@@ -69,7 +78,21 @@ export default function Testimonials() {
               
               <div className="flex gap-1 mb-3 sm:mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 sm:w-5 h-4 sm:h-5 text-yellow-400 fill-yellow-400" />
+                  <motion.div
+                    key={i}
+                    initial={{ scale: 0, rotate: -180 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ 
+                      delay: index * 0.1 + i * 0.1,
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 20
+                    }}
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                  >
+                    <Star className="w-4 sm:w-5 h-4 sm:h-5 text-yellow-400 fill-yellow-400 animate-glow" />
+                  </motion.div>
                 ))}
               </div>
               

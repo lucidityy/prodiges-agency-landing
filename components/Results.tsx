@@ -1,7 +1,79 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion, useSpring, useTransform } from 'framer-motion';
 import { TrendingUp, ArrowUpRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+// Hook pour animer les compteurs
+function useCountUp(end: number, start: number = 0, duration: number = 2000) {
+  const [nodeRef, setNodeRef] = useState<HTMLElement | null>(null);
+  const [count, setCount] = useState(start);
+
+  useEffect(() => {
+    if (!nodeRef) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          let startTimestamp: number;
+          const step = (timestamp: number) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const easedProgress = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+            setCount(start + (end - start) * easedProgress);
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            }
+          };
+          requestAnimationFrame(step);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(nodeRef);
+    return () => observer.disconnect();
+  }, [nodeRef, end, start, duration]);
+
+  return [setNodeRef, count] as const;
+}
+
+// Composant pour les statistiques animées
+function StatCounter({ value, label, index }: { value: string, label: string, index: number }) {
+  // Extraire le nombre de la valeur (ex: "98%" -> 98, "+250%" -> 250)
+  const numericValue = parseInt(value.replace(/[^\d]/g, ''), 10) || 0;
+  const [ref, count] = useCountUp(numericValue, 0, 2000 + index * 200);
+  
+  // Reformater la valeur avec les mêmes caractères que l'original
+  const formatValue = (currentCount: number) => {
+    const rounded = Math.round(currentCount);
+    if (value.includes('%')) return `${rounded}%`;
+    if (value.includes('+')) return `+${rounded}%`;
+    if (value.includes('j')) return `${rounded}j`;
+    return rounded.toString();
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+      className="text-center hover-glow"
+      whileHover={{ scale: 1.05, y: -5 }}
+    >
+      <motion.div 
+        ref={ref}
+        className="text-3xl font-bold text-gray-900 mb-2 animate-text-glow"
+        whileHover={{ scale: 1.1 }}
+      >
+        {formatValue(count)}
+      </motion.div>
+      <div className="text-sm text-gray-600">{label}</div>
+    </motion.div>
+  );
+}
 
 const caseStudies = [
   {
@@ -80,7 +152,13 @@ export default function Results() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
+              className="bg-white rounded-2xl overflow-hidden shadow-sm hover-glow card-interactive animate-morphing-border particles-container"
+              whileHover={{ 
+                scale: 1.03,
+                rotateY: 2,
+                z: 50
+              }}
+              style={{ transformStyle: 'preserve-3d' }}
             >
               {/* Header */}
               <div className="p-8">
@@ -101,14 +179,23 @@ export default function Results() {
                 </div>
 
                 {/* Metric */}
-                <div className="mb-6">
-                  <div className="text-4xl font-bold text-primary mb-2">
+                <motion.div 
+                  className="mb-6"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 + index * 0.1, type: "spring" }}
+                >
+                  <motion.div 
+                    className="text-4xl font-bold text-primary mb-2 animate-text-glow"
+                    whileHover={{ scale: 1.1 }}
+                  >
                     {study.metric}
-                  </div>
+                  </motion.div>
                   <p className="text-gray-700 font-medium">
                     {study.mainResult}
                   </p>
-                </div>
+                </motion.div>
 
                 {/* Description */}
                 <p className="text-gray-600 mb-6">
@@ -116,14 +203,19 @@ export default function Results() {
                 </p>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {study.tags.map((tag) => (
-                    <span 
+                <div className="flex flex-wrap gap-2 stagger-children animate">
+                  {study.tags.map((tag, tagIndex) => (
+                    <motion.span 
                       key={tag}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm"
+                      initial={{ scale: 0, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5 + index * 0.1 + tagIndex * 0.05, type: "spring" }}
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm hover-magnetic"
                     >
                       {tag}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
               </div>
@@ -136,7 +228,7 @@ export default function Results() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-20 grid grid-cols-2 lg:grid-cols-4 gap-8 py-12 border-t border-b border-gray-200 border-solid"
+          className="mt-20 grid grid-cols-2 lg:grid-cols-4 gap-8 py-12 border-t border-b border-gray-200 border-solid particles-container"
         >
           {[
             { value: "98%", label: "Clients satisfaits" },
@@ -144,17 +236,12 @@ export default function Results() {
             { value: "45j", label: "Délai moyen" },
             { value: "87%", label: "Taux de rétention" }
           ].map((stat, index) => (
-            <motion.div
+            <StatCounter
               key={stat.label}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="text-center"
-            >
-              <div className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>
-              <div className="text-sm text-gray-600">{stat.label}</div>
-            </motion.div>
+              value={stat.value}
+              label={stat.label}
+              index={index}
+            />
           ))}
         </motion.div>
 
@@ -165,13 +252,15 @@ export default function Results() {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <a 
+          <motion.a 
             href="#contact" 
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-xl hover:shadow-lg transition-all duration-200"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-xl hover:shadow-lg transition-all duration-200 btn-shimmer hover-magnetic relative overflow-hidden"
+            whileHover={{ scale: 1.05, y: -3 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Démarrer votre projet
-            <ArrowUpRight className="w-4 h-4" />
-          </a>
+            <span className="relative z-10">Démarrer votre projet</span>
+            <ArrowUpRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          </motion.a>
         </motion.div>
       </div>
     </section>
