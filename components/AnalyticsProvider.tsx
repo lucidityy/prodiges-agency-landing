@@ -78,13 +78,11 @@ export default function AnalyticsProvider({
   const [hasConsent, setHasConsent] = useState(false);
   const [showConsentBanner, setShowConsentBanner] = useState(false);
 
-  // Auto-tracking hooks (only active if consent is given)
+  // Auto-tracking hooks
   usePageTracking();
-  
-  if (hasConsent && enableAutoTracking) {
-    useScrollTracking();
-    useTimeTracking();
-  }
+  // TODO: Fix conditional hooks issue
+  // useScrollTracking();
+  // useTimeTracking();
 
   // Check for existing consent on mount
   useEffect(() => {

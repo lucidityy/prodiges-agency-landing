@@ -41,8 +41,9 @@ module.exports = {
         'glass-border': 'rgba(255, 255, 255, 0.18)',
       },
       fontFamily: {
-        'heading': ['Poppins', 'sans-serif'],
-        'body': ['Inter', 'sans-serif'],
+        'heading': ['Host Grotesk', 'sans-serif'],
+        'body': ['Poppins', 'Inter', 'sans-serif'],
+        'brand': ['Host Grotesk', 'sans-serif'],
       },
       borderRadius: {
         'card': '24px',

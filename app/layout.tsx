@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import PWAInstaller, { PWAFeatures } from '@/components/PWAInstaller'
-import SecurityProvider from '@/components/SecurityProvider'
+import { SecurityProvider } from '@/components/SecurityProvider'
 
 export const metadata: Metadata = {
   title: {

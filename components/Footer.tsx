@@ -16,7 +16,7 @@ export default function Footer() {
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8"
         >
           <div>
-            <h3 className="text-2xl sm:text-3xl text-black mb-3 sm:mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900 }}>prodiges.</h3>
+            <h3 className="text-2xl sm:text-3xl text-black mb-3 sm:mb-4 brand-text">prodiges.</h3>
             <p className="text-sm sm:text-base text-text-light">
               Agence digitale créative basée à Paris
             </p>
