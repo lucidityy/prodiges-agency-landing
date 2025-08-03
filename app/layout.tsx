@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import PWAInstaller, { PWAFeatures } from '@/components/PWAInstaller'
-import SecurityProvider from '@/components/SecurityProvider'
+import { SecurityProvider } from '@/components/SecurityProvider'
 
 export const metadata: Metadata = {
   title: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/og-image.jpg',
-        width: 1200,fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 border-solid shadow-lg p-4 md:p-6
+        width: 1200,
         height: 630,
         alt: 'Prodiges Agency - Incubateur nouvelle génération',
       }

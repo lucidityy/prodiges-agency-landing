@@ -5,21 +5,21 @@ import { TrackedButton, TrackedLink, TrackedForm, ContactButton } from '@/compon
 
 // Mock the analytics hooks
 jest.mock('@/hooks/useAnalytics', () => ({
-  useCTATracking: () => ({
+  useCTATracking: jest.fn(() => ({
     trackCTAClick: jest.fn(),
     trackEmailClick: jest.fn(),
     trackPhoneClick: jest.fn(),
-  }),
-  useInteractionTracking: () => ({
+  })),
+  useInteractionTracking: jest.fn(() => ({
     trackClick: jest.fn(),
     trackHover: jest.fn(),
     trackFocus: jest.fn(),
-  }),
-  useFormTracking: () => ({
+  })),
+  useFormTracking: jest.fn(() => ({
     trackFormStart: jest.fn(),
     trackFormComplete: jest.fn(),
     trackFormError: jest.fn(),
-  }),
+  })),
 }));
 
 describe('TrackedButton', () => {
